@@ -3,8 +3,10 @@
 <h1>Alpha Phase *Still hashing out things...*</h1>
 
  <h1>Search through Articles of your Choosing with the help of the New York Times Article Search API</h1>
+ 
+ ![screenshot](client/images/nytAPI.jpg)
 
- #Technologies Used
+ <strong>Technologies Used</strong>
   - Node.js
   - Express.js
   - Webpack

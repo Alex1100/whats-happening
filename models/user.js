@@ -15,7 +15,7 @@ User.sync();
 Articles.sync();
 
 module.exports = {
-  User: User,
-  Articles: Articles
+  User,
+  Articles
 }
 

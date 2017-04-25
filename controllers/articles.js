@@ -7,8 +7,8 @@ var request = require('request');
 
 //read promises like a list to extend the time of return value coming through
 var grabArticles = function(req, res){
-  console.log(req.body.query);
-  request.get(process.env.NYTIMES_ARTICLE_SEARCH_API_URL + req.body.query + process.env.NYTIMES_ARTICLE_SEARCH_API_KEY, function(err, response, articles){
+  console.log(req.params.query);
+  request.get(process.env.NYTIMES_ARTICLE_SEARCH_API_URL + req.params.query + process.env.NYTIMES_ARTICLE_SEARCH_API_KEY, function(err, response, articles){
       var articles = JSON.parse(articles);
       User.find({ where: {username: req.params.username }})
       .then(user => {

@@ -1,72 +1,37 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Form, ControlLabel, HelpBlock, FormControl, FormGroup, Image, Checkbox, Button, ButtonToolbar } from 'react-bootstrap/lib';
+import { Grid, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
-import SplashPage from './SplashPage';
-import Nav from './Nav';
-import LoggedInNav from './LoggedInNav';
 import ArticleList from './ArticleList';
+import SplashPage from './SplashPage';
+import TheNav from './TheNav';
+import LoggedInNav from './LoggedInNav';
 
 
 
 class App extends Component {
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
     this.state = {
-      term: '',
-      allArticles: [],
-      currentArticle: '',
+      query: '',
       currentUser: '',
-      currentUsersArticles: [],
-      loggedIn: false
+      usernameInputLogin: '',
+      passwordInputLogin: '',
+      usernameInputSignup: '',
+      passwordInputSignup: '',
+      loggedIn: false,
+      allArticles: [],
+      currentArticle: ''
     };
 
-    this.loginUser = this.loginUser.bind(this);
-    this.signupUser = this.signupUser.bind(this);
+    //pass down currentUser to articleList
     this.generateArticles = this.generateArticles.bind(this);
     this.retrieveArticles = this.retrieveArticles.bind(this);
-    this.retrieveUsersArticles = this.retrieveUsersArticles.bind(this);
-  }
-
-
-  handleLoginClick(user){
-    user.preventDefault();
-    this.loginUser();
-    this.setState({currentUser: user});
-  }
-
-  handleSignupClick(){
-    user.preventDefault();
-    this.signupUser();
-  }
-
-  signupUser(){
-    axios.post('/users')
-    .then((user) => {
-      console.log("User signed up to site: ", user);
-      this.setState({
-        currentUser: user.data.username
-      });
-    })
-    .catch((error) => {
-      console.log("Error signing user up: ", error);
-    });
-  }
-
-  loginUser(){
-    axios.get('/users/' + currentUser)
-    .then((user) => {
-      console.log("User successfuly logged in: ", user);
-      this.setState({
-        loggedIn: !this.state.loggedIn
-      });
-    })
-    .catch((error) => {
-      console.log("Error logging guest in: ", error);
-    });
+    this.loginUser = this.loginUser.bind(this);
+    this.signupUser = this.signupUser.bind(this);
   }
 
   generateArticles(){
-    axios.post('/articles/' + currentUser)
+    axios.post('/articles/' + this.state.currentUser + '/' + this.state.query)
     .then((articles) => {
       console.log("Generated Articles Successfully: ", articles);
     })
@@ -75,32 +40,94 @@ class App extends Component {
     });
   }
 
-
   retrieveArticles(){
     axios.get('/articles')
     .then((articles) => {
-      console.log("Succesfully retireved Articles: ", articles);
+      console.log("Succesfully retireved Articles: ", articles.data);
       this.setState({
         allArticles: articles.data,
         currentArticle: this.state.allArticles[0]
       });
+      console.log("In the resolve for get all alcs: ", this.sate.allArticles);
     })
     .catch((error) => {
       console.log("Error Retrieving Users Articles: ", error);
     });
   }
 
-  retrieveUsersArticles(){
-    axios.get('/users/' + this.state.currentUser + '/articles')
-    .then((usersArticles) => {
-      console.log("Succesfully Retrieved Users Articles: ", usersArticles);
+  signupUser(){
+    axios.post('/users/' + this.state.usernameInputSignup + '/' + this.state.passwordInputSignup)
+    .then((user) => {
+      console.log("User signed up to site: ", user);
       this.setState({
-        currentUsersArticles: usersArticles.data
+        currentUser: this.state.usernameInputSignup,
+        loggedIn: !this.state.loggedIn
       });
     })
     .catch((error) => {
-      console.log("Error retrieving users articles: ", error);
+      console.log("Error signing user up: ", error);
     });
+  }
+
+  loginUser(){
+    axios.get('/users/' + this.state.usernameInputLogin + '/' + this.state.passwordInputLogin)
+    .then((user) => {
+      console.log("User successfuly logged in: ", user.data);
+      this.setState({
+        loggedIn: !this.state.loggedIn,
+        currentUser: user.data.username
+      });
+    })
+    .catch((error) => {
+      console.log("Error logging guest in: ", error);
+    });
+  }
+
+
+  handleUsernameInputLogin(username){
+    this.setState({usernameInputLogin: username});
+  }
+
+  handlePasswordInputLogin(password){
+    this.setState({passwordInputLogin: password});
+  }
+
+  handleUsernameInputSignup(username){
+    this.setState({usernameInputSignup: username});
+  }
+
+  handlePasswordInputSignup(password){
+    this.setState({passwordInputSignup: password});
+  }
+
+  handleSignupClick(e){
+    e.preventDefault();
+    this.signupUser();
+  }
+
+  handleLoginClick(e){
+    e.preventDefault();
+    this.loginUser();
+  }
+
+  handleLogout(){
+    this.setState({
+      loggedIn: !this.state.loggedIn,
+      currentUser: ''
+    });
+  }
+
+  handleSearchQuery(term){
+    this.setState({query: term});
+  }
+
+  handleSearch(){
+    this.generateArticles();
+  }
+
+  handleSearchClick(e){
+    e.preventDefault();
+    this.retrieveArticles();
   }
 
 
@@ -109,10 +136,14 @@ class App extends Component {
       <div>
         <Grid>
           <Row className="show-grid">
-            <Col xs={12} xsOffset={0}><Nav handleLoginClick={this.handleLoginClick.bind(this)} handleSignupClick={this.handleSignupClick.bind(this)}/></Col>
+            <Col xs={12} xsOffset={0}>
+              <TheNav handleUsernameInputLogin={this.handleUsernameInputLogin.bind(this)} handlePasswordInputLogin={this.handlePasswordInputLogin.bind(this)} handleUsernameInputSignup={this.handleUsernameInputSignup.bind(this)} handlePasswordInputSignup={this.handlePasswordInputSignup.bind(this)} handleLoginClick={this.handleLoginClick.bind(this)} handleSignupClick={this.handleSignupClick.bind(this)}/>
+            </Col>
           </Row>
           <Row className="show-grid">
-            <Col md={12} xsOffset={0} mdPush={0}><SplashPage /></Col>
+            <Col xs={12} xsOffset={0} mdPush={0}>
+              <SplashPage />
+            </Col>
           </Row>
         </Grid>
       </div>
@@ -121,10 +152,14 @@ class App extends Component {
       <div>
         <Grid>
           <Row className="show-grid">
-            <Col xs={12} xsOffset={0}><LoggedInNav /></Col>
+            <Col xs={12} xsOffset={0}>
+              <LoggedInNav handleSearchQuery={this.handleSearchQuery.bind(this)} handleSearchClick={this.handleSearchClick.bind(this)} handleSearch={this.handleSearch.bind(this)} term={this.state.term} handleLogout={this.handleLogout.bind(this)}/>
+            </Col>
           </Row>
           <Row className="show-grid">
-            <Col md={12} xsOffset={0} mdPush={0}><ArticleList /></Col>
+            <Col md={12} xsOffset={0} mdPush={0}>
+              <ArticleList articles={this.state.allArticles} currentUser={this.state.currentUser}/>
+            </Col>
           </Row>
         </Grid>
       </div>

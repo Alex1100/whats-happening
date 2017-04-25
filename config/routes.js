@@ -5,13 +5,13 @@ var articlesController = require('../controllers/articles');
 
 
 //Signup
-router.post('/users', usersController.createUser);
+router.post('/users/:username/:password', usersController.createUser);
 
 //Login
-router.get('/users/:username', usersController.getUser);
+router.get('/users/:username/:password', usersController.getUser);
 
 //DB call to get Articles from NYT API
-router.post('/articles/:username', articlesController.grabArticles);
+router.post('/articles/:username/:query', articlesController.grabArticles);
 
 //Get all Articles in DB
 router.get('/articles', articlesController.getArticles);

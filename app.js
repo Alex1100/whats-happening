@@ -18,12 +18,12 @@ app.use(session({
 }));
 
 app.set('views', path.join(__dirname, 'client/index.html'));
-
+var port = process.env.PORT || 8080;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'client')));
 app.use('/', routes);
-app.listen(8080, console.log('listening on port ' + 8080));
+app.listen(port, console.log('listening on port ' + 8080));
 
 
 

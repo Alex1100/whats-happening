@@ -20,7 +20,7 @@ var ArticleListEntry = function(props) {
               </thead>
               <tbody>
                 <tr>
-                  <td><a href={props.article.webUrl} target="_blank" onClick={() => props.handleCurrentArticleClick(props.article)}>{props.article.webUrl}</a></td>
+                  <td><a href={props.article.webUrl} target="_blank">{props.article.webUrl}</a></td>
                   <td>{props.article.generalCategory}</td>
                   <td>{props.article.source}</td>
                 </tr>

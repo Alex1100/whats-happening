@@ -57,43 +57,10 @@ var getUsersArticles = function(req, res){
     });
 };
 
-var updateArticlesViewsCount = function(req, res){
-  Article.find({where: {name: req.params.name}})
-    .then((article) => {
-      console.log("In the resolve portion of callback: ", article);
-      article.updateAttributes({
-        views: Number(req.params.views) + 1
-      })
-      .then((data) => {
-        console.log("THe MOTHERFUCKING ANSWER WE NEED~!!~~~: ", data.dataValues.views)
-        res.status(204).send(data.dataValues.views);
-      })
-    })
-    .catch((error) => {
-      console.log("In the reject portion: ", error);
-      res.status(400);
-    })
-}
-
-
-var deleteUserArticle = function(req, res){
-  User.find({where: { username: req.params.username }}, function(err, user){
-    Article.destroy({id: req.params.id}, function(err, article){
-      if(err){
-        console.log("Error retrieving articles becuase: ", err);
-      } else if(article){
-        res.status(204).send(article);
-      }
-    });
-  });
-};
-
 
 
 module.exports = {
   grabArticles,
   getUsersArticles,
-  getArticles,
-  deleteUserArticle,
-  updateArticlesViewsCount
+  getArticles
 }

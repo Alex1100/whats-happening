@@ -35,8 +35,6 @@ class ArticleList extends Component{
       <div>
         {this.props.articles.reverse().map((article) =>
           <ArticleListEntry
-          incrementViewsCount={this.props.incrementViewCount}
-          handleCurrentArticleClick={this.props.handleCurrentArticleClick}
           article={article} />
         )}
       </div>

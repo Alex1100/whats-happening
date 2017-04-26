@@ -12,7 +12,7 @@ var Search = function(props){
             <FormControl onChange={(e) => {props.handleSearch(e.target.value); props.handleSearchQuery(e.target.value)}} type="text" placeholder="Got anything in mind?" bsSize="large"/>
           </FormGroup>
           {' '}
-          <Button onClick={(e) => props.handleSearchClick(e)}  type="submit" bsSize="large">Search</Button>
+          <Button bsStyle="success" onClick={(e) => props.handleSearchClick(e)}  type="submit" bsSize="large">Search</Button>
         </Navbar.Form>
       </Navbar.Collapse>
     </div>

@@ -8,7 +8,7 @@ var LoggedInNav = function(props){
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/"><img src="http://www.uniontools.com/lib/img/header/whats-happening.jpg" height="75" width="500"/></a>
+            <a href="/"><img src="http://www.uniontools.com/lib/img/header/whats-happening.jpg" height="225" width="500"/></a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>

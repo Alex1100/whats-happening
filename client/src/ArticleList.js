@@ -7,9 +7,10 @@ class ArticleList extends Component{
   constructor(props){
     super(props);
     this.state = {
-      currentUsersArticles: []
+      currentUsersArticles: [],
     };
 
+    console.log("In the ArticleList Component: ", this.props);
     this.retrieveUsersArticles = this.retrieveUsersArticles.bind(this);
   }
 
@@ -33,7 +34,10 @@ class ArticleList extends Component{
     return this.props.articles.length > 0 ? (
       <div>
         {this.props.articles.reverse().map((article) =>
-          <ArticleListEntry article={article} />
+          <ArticleListEntry
+          incrementViewsCount={this.props.incrementViewCount}
+          handleCurrentArticleClick={this.props.handleCurrentArticleClick}
+          article={article} />
         )}
       </div>
     ) :

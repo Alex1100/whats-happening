@@ -19,6 +19,10 @@ router.get('/articles', articlesController.getArticles);
 //Get all Users Articles
 router.get('/users/:username/articles', articlesController.getUsersArticles);
 
+
+//Update views count
+// router.put('/articles/:name/:views', articlesController.updateArticlesViewsCount);
+
 //Delete a single Article
 // router.delete('/users/:username/articles/:id', articlesController.deleteArticle);
 

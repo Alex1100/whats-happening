@@ -20,7 +20,8 @@ class App extends Component {
       passwordInputSignup: '',
       loggedIn: false,
       allArticles: [],
-      currentArticle: ''
+      currentArticle: '',
+      currentArticlesViews: ''
     };
 
     //pass down currentUser to articleList
@@ -28,7 +29,10 @@ class App extends Component {
     this.retrieveArticles = this.retrieveArticles.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.signupUser = this.signupUser.bind(this);
+    // this.incrementViewsCount = this.incrementViewsCount.bind(this);
+    this.handleCurrentArticleClick = this.handleCurrentArticleClick.bind(this);
   }
+
 
   generateArticles(){
     axios.post('/articles/' + this.state.currentUser + '/' + this.state.query)
@@ -48,7 +52,7 @@ class App extends Component {
         allArticles: articles.data,
         currentArticle: this.state.allArticles[0]
       });
-      console.log("In the resolve for get all alcs: ", this.sate.allArticles);
+      console.log("In the resolve for get all alcs: ", this.state.allArticles);
     })
     .catch((error) => {
       console.log("Error Retrieving Users Articles: ", error);
@@ -100,6 +104,20 @@ class App extends Component {
     this.setState({passwordInputSignup: password});
   }
 
+  // incrementViewsCount(){
+  //   console.log('what is this? ', this.state.currentArticle)
+  //   axios.put('/articles/' + this.state.currentArticle.name + '/' + this.state.currentArticlesViews)
+  //     .then((article) => {
+  //       console.log("In the resolve portion: ", article);
+  //       this.setState({
+  //         currentArticlesViews: article.views
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log('Error updating count for articles views: ', error);
+  //     })
+  // }
+
   handleSignupClick(e){
     e.preventDefault();
     this.signupUser();
@@ -108,6 +126,25 @@ class App extends Component {
   handleLoginClick(e){
     e.preventDefault();
     this.loginUser();
+  }
+
+  handleCurrentArticleClick(article){
+    //if there is an error without e.preventDefault then use it
+    console.log('what this article here? ', article.name)
+    console.log('what this something else here? ', article)
+    console.log('the current state ', this.state)
+    this.setState({
+      currentArticlesViews: article.views,
+      currentArticle: article
+    })
+    // ()=>{this.incrementViewsCount()})
+    // .then((data) => {
+    //   console.log("After state set: ", this.state);
+      // this.incrementViewsCount();
+    // })
+    // .catch((error) => {
+    //   console.log("Got the gnarly erro: ", error);
+    // })
   }
 
   handleLogout(){
@@ -137,7 +174,13 @@ class App extends Component {
         <Grid>
           <Row className="show-grid">
             <Col xs={12} xsOffset={0}>
-              <TheNav handleUsernameInputLogin={this.handleUsernameInputLogin.bind(this)} handlePasswordInputLogin={this.handlePasswordInputLogin.bind(this)} handleUsernameInputSignup={this.handleUsernameInputSignup.bind(this)} handlePasswordInputSignup={this.handlePasswordInputSignup.bind(this)} handleLoginClick={this.handleLoginClick.bind(this)} handleSignupClick={this.handleSignupClick.bind(this)}/>
+              <TheNav
+              handleUsernameInputLogin={this.handleUsernameInputLogin.bind(this)}
+              handlePasswordInputLogin={this.handlePasswordInputLogin.bind(this)}
+              handleUsernameInputSignup={this.handleUsernameInputSignup.bind(this)}
+              handlePasswordInputSignup={this.handlePasswordInputSignup.bind(this)}
+              handleLoginClick={this.handleLoginClick.bind(this)}
+              handleSignupClick={this.handleSignupClick.bind(this)}/>
             </Col>
           </Row>
           <Row className="show-grid">
@@ -153,12 +196,20 @@ class App extends Component {
         <Grid>
           <Row className="show-grid">
             <Col xs={12} xsOffset={0}>
-              <LoggedInNav handleSearchQuery={this.handleSearchQuery.bind(this)} handleSearchClick={this.handleSearchClick.bind(this)} handleSearch={this.handleSearch.bind(this)} term={this.state.term} handleLogout={this.handleLogout.bind(this)}/>
+              <LoggedInNav
+              handleSearchQuery={this.handleSearchQuery.bind(this)}
+              handleSearchClick={this.handleSearchClick.bind(this)}
+              handleSearch={this.handleSearch.bind(this)}
+              term={this.state.term}
+              handleLogout={this.handleLogout.bind(this)}/>
             </Col>
           </Row>
           <Row className="show-grid">
             <Col md={12} xsOffset={0} mdPush={0}>
-              <ArticleList articles={this.state.allArticles} currentUser={this.state.currentUser}/>
+              <ArticleList
+              handleCurrentArticleClick={this.handleCurrentArticleClick.bind(this)}
+              articles={this.state.allArticles}
+              currentUser={this.state.currentUser}/>
             </Col>
           </Row>
         </Grid>

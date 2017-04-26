@@ -7,7 +7,7 @@ var TheNav = function(props){
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/"><img src="http://www.uniontools.com/lib/img/header/whats-happening.jpg" height="75" width="500"/></a>
+            <a href="/"><img src="http://www.uniontools.com/lib/img/header/whats-happening.jpg" height="125" width="500"/></a>
           </Navbar.Brand>
         </Navbar.Header>
         <Nav>
@@ -21,7 +21,7 @@ var TheNav = function(props){
                 <FormControl onChange={(e) => props.handlePasswordInputLogin(e.target.value)} type="text" placeholder="Enter Password" bsSize="small"/>
               </FormGroup>
               {' '}
-              <Button onClick={(e) => props.handleLoginClick(e)} type="submit" bsSize="small">Login</Button>
+              <Button bsStyle="primary" onClick={(e) => props.handleLoginClick(e)} type="submit" bsSize="small">Login</Button>
             </Navbar.Form>
           </Navbar.Collapse>
           <Navbar.Collapse bsSize="small">
@@ -31,7 +31,7 @@ var TheNav = function(props){
                 <FormControl onChange={(e) => props.handlePasswordInputSignup(e.target.value)} type="text" placeholder="Create Password" bsSize="small"/>
               </FormGroup>
               {' '}
-              <Button onClick={(e) => props.handleSignupClick(e)} type="submit" bsSize="small">Signup</Button>
+              <Button bsStyle="primary" onClick={(e) => props.handleSignupClick(e)} type="submit" bsSize="small">Signup</Button>
             </Navbar.Form>
           </Navbar.Collapse>
         </Nav>

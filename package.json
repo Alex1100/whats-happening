@@ -26,6 +26,7 @@
     "express-session": "^1.15.2",
     "mysql": "^2.13.0",
     "nodemon": "^1.11.0",
+    "pg": "^6.1.5",
     "react": "^15.5.4",
     "react-bootstrap": "^0.30.10",
     "react-dom": "^15.5.4",
